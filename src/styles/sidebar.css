@@ -1,0 +1,191 @@
+/* src/styles/sidebar.css */
+
+/* Sidebar tetap bisa scroll */
+.sidebar{
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  /* Firefox: sembunyi default */
+  scrollbar-width: none;
+}
+
+/* Chrome/Safari/Edge: sembunyi default */
+.sidebar::-webkit-scrollbar{
+  width: 0px;
+}
+
+/* Saat hover: tampilkan scrollbar tipis (bisa di-drag) */
+.sidebar:hover{
+  scrollbar-width: thin; /* Firefox */
+}
+
+.sidebar:hover::-webkit-scrollbar{
+  width: 10px;
+}
+
+.sidebar:hover::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.18);
+  border-radius: 999px;
+}
+
+.sidebar:hover::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+/* =========================
+   Top section (logo + user)
+   ========================= */
+.sidebar .sidebar-top{
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+/* header logo */
+.sidebar .sidebar-header--logoOnly{
+  padding: 12px 16px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* background putih kecil (tetap ringkas) */
+.sidebar .sidebar-logoWrapRect{
+  width: min(260px, calc(100% - 28px));
+  height: 64px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.92);
+  display: grid;
+  place-items: center;
+
+  /* bikin logo terlihat besar tanpa bikin box besar */
+  padding: 2px 6px;
+  box-sizing: border-box;
+
+  box-shadow: 0 10px 22px rgba(0,0,0,.16);
+}
+
+/* Wrapper: pastikan benar-benar center */
+.sidebar .sidebar-logoWrapRect{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden;              /* biar nggak “turun” kelihatan aneh */
+}
+
+/* Logo: jangan lebih tinggi dari box */
+.sidebar img.sidebar-brand-logo--big{
+  width: 100%;
+  max-width: 400px;
+  height: auto !important;       /* penting */
+  max-height: 190% !important;   /* penting: selalu muat di box */
+  object-fit: contain;
+  display: block;
+}
+
+/* fallback */
+.sidebar .sidebar-logoFallback{
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #0f4c81;
+  font-size: 18px;
+}
+
+/* =========================
+   User card (compact)
+   ========================= */
+.sidebar .sidebar-user--nice{
+  margin: 6px 14px 10px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.10);
+}
+
+.sidebar .sidebar-user--nice,
+.sidebar .sidebar-user--nice .user-name,
+.sidebar .sidebar-user--nice .user-role{
+  color: #fff !important;
+}
+
+.sidebar .sidebar-user__row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar .sidebar-user__avatar{
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  letter-spacing: .3px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.14);
+  flex: 0 0 auto;
+}
+
+.sidebar .sidebar-user__meta{
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.sidebar .sidebar-user__name{
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* badge aman untuk teks panjang */
+.sidebar .sidebar-user__role{
+  margin-top: 6px;
+  min-width: 0;
+  display: flex;
+}
+
+.sidebar .sidebar-user__badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.12);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.sidebar .sidebar-user__badgeIcon{ flex: 0 0 auto; }
+
+.sidebar .sidebar-user__badgeText{
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+/* =========================
+   Hard override (kalau ada CSS lain meniban)
+   ========================= */
+.sidebar .sidebar-logoWrapRect{
+  background: rgba(255,255,255,.92) !important;
+}
+.sidebar img.sidebar-brand-logo--big{
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
