@@ -171,28 +171,30 @@ export default function LoginPage({ onLoggedIn }) {
 
           <form className="lp-form" onSubmit={handleSubmit} noValidate>
             <div className="lp-field">
-              <label htmlFor="lp-nama">Nama Pengguna</label>
+              <label htmlFor="lp-nama">👤 USERNAME</label>
               <input
                 id="lp-nama"
                 value={form.nama}
                 onChange={(e) => setForm((s) => ({ ...s, nama: e.target.value }))}
                 onBlur={() => setTouched((t) => ({ ...t, nama: true }))}
-                placeholder="contoh: Admin Dinkes"
+                placeholder="Masukkan Username Anda"
                 autoComplete="username"
                 aria-invalid={Boolean(showNamaError)}
               />
-              {showNamaError ? <div className="lp-field-error">{fieldErrors.nama}</div> : null}
+              {showNamaError ? (
+                <div className="lp-field-error">{fieldErrors.nama}</div>
+              ) : null}
             </div>
 
             <div className="lp-field">
-              <label htmlFor="lp-pass">Password</label>
+              <label htmlFor="lp-pass">🔑 PASSWORD</label>
               <div className="lp-pass" data-invalid={Boolean(showPassError)}>
                 <input
                   id="lp-pass"
                   value={form.password}
                   onChange={(e) => setForm((s) => ({ ...s, password: e.target.value }))}
                   onBlur={() => setTouched((t) => ({ ...t, password: true }))}
-                  placeholder="••••••••"
+                  placeholder="Masukkan Password Anda"
                   type={showPass ? "text" : "password"}
                   autoComplete="current-password"
                   aria-invalid={Boolean(showPassError)}
@@ -204,7 +206,7 @@ export default function LoginPage({ onLoggedIn }) {
                   aria-label={showPass ? "Sembunyikan password" : "Tampilkan password"}
                   title={showPass ? "Sembunyikan" : "Tampilkan"}
                 >
-                  {showPass ? "🙈" : "👁️"}
+                  {showPass ? "👁️" : "🙈"}
                 </button>
               </div>
               {showPassError ? (
@@ -239,7 +241,7 @@ export default function LoginPage({ onLoggedIn }) {
                     Memproses...
                   </span>
                 ) : (
-                  "Masuk"
+                  "🔓 LOGIN"
                 )}
               </button>
             </div>
@@ -254,12 +256,19 @@ export default function LoginPage({ onLoggedIn }) {
 
 const styles = `
 :root{
-  --lp-white: rgba(255,255,255,.92);
-  --lp-glass: rgba(255,255,255,.16);
-  --lp-border: rgba(255,255,255,.26);
-  --lp-text: rgba(255,255,255,.95);
-  --lp-text-dim: rgba(255,255,255,.78);
-  --lp-shadow: 0 20px 60px rgba(0,0,0,.14);
+  --lp-white: rgba(255,255,255,.94);
+
+  /* glass tint (lebih gelap sedikit) */
+  --lp-glass: rgba(10, 26, 40, .26);
+  --lp-glass-2: rgba(255,255,255,.10);
+
+  --lp-border: rgba(255,255,255,.22);
+  --lp-text: rgba(255,255,255,.96);
+  --lp-text-dim: rgba(255,255,255,.82);
+  --lp-shadow: 0 26px 70px rgba(0,0,0,.22);
+
+  --lp-teal: #18d1c8;
+  --lp-teal2: #12bfb7;
 }
 
 .lp-shell{ --mx: 0; --my: 0; }
@@ -270,7 +279,7 @@ const styles = `
 @keyframes lpBlobA { 0%,100%{transform:translate(-10px,-8px) scale(1)} 50%{transform:translate(18px,12px) scale(1.06)} }
 @keyframes lpBlobB { 0%,100%{transform:translate(8px,10px) scale(1)} 50%{transform:translate(-14px,-10px) scale(1.08)} }
 @keyframes lpBlobC { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(10px,-16px) scale(1.05)} }
-@keyframes lpShine { 0%{transform:translateX(-60%) rotate(12deg); opacity:.0} 30%{opacity:.18} 60%{opacity:.06} 100%{transform:translateX(120%) rotate(12deg); opacity:0} }
+@keyframes lpShine { 0%{transform:translateX(-60%) rotate(12deg); opacity:.0} 30%{opacity:.16} 60%{opacity:.06} 100%{transform:translateX(120%) rotate(12deg); opacity:0} }
 @keyframes lpSpin { to { transform: rotate(360deg); } }
 
 .lp-shell{
@@ -279,20 +288,26 @@ const styles = `
   align-items:center;
   justify-content:center;
   padding:24px;
-  background:linear-gradient(120deg,#a9d7ff 0%,#0bb3d1 45%,#79ffd3 100%);
   position:relative;
   overflow:hidden;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+
+  /* lebih gelap sedikit + tetap hidup */
+  background:
+    radial-gradient(1100px 650px at 18% 18%, rgba(255,255,255,.16), transparent 62%),
+    radial-gradient(900px 560px at 82% 72%, rgba(0,0,0,.28), transparent 58%),
+    linear-gradient(135deg, #1b86d6 0%, #0aa6b0 50%, #18c7a0 100%);
 }
 
-.lp-blob{ position:absolute; filter:blur(18px); opacity:.32; border-radius:999px; pointer-events:none }
-.lp-blob-a{ width:560px;height:560px;background:#ffffff;left:-220px;top:-220px }
-.lp-blob-b{ width:560px;height:560px;background:#003cff;right:-280px;bottom:-260px; opacity:.28 }
-.lp-blob-c{ width:420px;height:420px;background:#00ffd1;left:55%;top:-160px; opacity:.18 }
+.lp-blob{ position:absolute; filter:blur(18px); opacity:.30; border-radius:999px; pointer-events:none }
+.lp-blob-a{ width:560px;height:560px;background:#ffffff;left:-220px;top:-220px; opacity:.18 }
+.lp-blob-b{ width:560px;height:560px;background:#003cff;right:-280px;bottom:-260px; opacity:.18 }
+.lp-blob-c{ width:420px;height:420px;background:#00ffd1;left:55%;top:-160px; opacity:.12 }
 .lp-blob-anim{ animation: lpBlobA 10.5s ease-in-out infinite; }
 .lp-blob-anim2{ animation: lpBlobB 12.5s ease-in-out infinite; }
 .lp-blob-anim3{ animation: lpBlobC 14.5s ease-in-out infinite; }
 
+/* ==== GLASS PANEL ==== */
 .lp-animated-border{
   position:relative;
   border-radius:28px;
@@ -304,9 +319,9 @@ const styles = `
   inset:-2px;
   background: linear-gradient(90deg,
     rgba(255,255,255,.55),
-    rgba(120,255,211,.55),
-    rgba(11,179,209,.55),
-    rgba(169,215,255,.55),
+    rgba(120,255,211,.45),
+    rgba(11,179,209,.45),
+    rgba(169,215,255,.45),
     rgba(255,255,255,.55)
   );
   background-size: 300% 300%;
@@ -323,9 +338,16 @@ const styles = `
   content:"";
   position:absolute;
   inset:0;
-  background: var(--lp-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+  /* glass tint + blur (inti efek kaca) */
+  background:
+    radial-gradient(900px 420px at 15% 18%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.08)),
+    var(--lp-glass);
+
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+
   border:1px solid var(--lp-border);
   border-radius:28px;
   box-shadow: var(--lp-shadow);
@@ -368,8 +390,8 @@ const styles = `
 .lp-ring{
   width:180px; height:180px;
   border-radius:999px;
-  border:2px solid rgba(255,255,255,.22);
-  box-shadow: inset 0 0 0 10px rgba(255,255,255,.06);
+  border:2px solid rgba(255,255,255,.18);
+  box-shadow: inset 0 0 0 10px rgba(255,255,255,.05);
   filter: blur(.2px);
   opacity:.55;
   animation: lpDrift 7s ease-in-out infinite;
@@ -380,8 +402,8 @@ const styles = `
 
 .lp-dots{
   width:180px; height:120px;
-  opacity:.35;
-  background-image: radial-gradient(rgba(255,255,255,.72) 1.4px, transparent 1.6px);
+  opacity:.30;
+  background-image: radial-gradient(rgba(255,255,255,.65) 1.4px, transparent 1.6px);
   background-size: 14px 14px;
   filter: blur(.2px);
   animation: lpFloat 6s ease-in-out infinite;
@@ -392,13 +414,13 @@ const styles = `
 
 .lp-spark{
   width:160px; height:160px;
-  opacity:.22;
+  opacity:.18;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,.9) 0 2px, transparent 3px),
-    radial-gradient(circle at 72% 28%, rgba(255,255,255,.9) 0 1.6px, transparent 3px),
-    radial-gradient(circle at 58% 62%, rgba(255,255,255,.9) 0 1.8px, transparent 3px),
-    radial-gradient(circle at 22% 70%, rgba(255,255,255,.9) 0 1.4px, transparent 3px),
-    radial-gradient(circle at 78% 76%, rgba(255,255,255,.9) 0 1.2px, transparent 3px);
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.80) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 28%, rgba(255,255,255,.80) 0 1.6px, transparent 3px),
+    radial-gradient(circle at 58% 62%, rgba(255,255,255,.80) 0 1.8px, transparent 3px),
+    radial-gradient(circle at 22% 70%, rgba(255,255,255,.80) 0 1.4px, transparent 3px),
+    radial-gradient(circle at 78% 76%, rgba(255,255,255,.80) 0 1.2px, transparent 3px);
   filter: blur(.25px);
   animation: lpFloat 5.5s ease-in-out infinite;
   --px: 20px; --py: 18px;
@@ -409,16 +431,16 @@ const styles = `
 .lp-med{
   width:180px;
   height:260px;
-  opacity:.22;
+  opacity:.16;
   filter: blur(.15px);
   animation: lpFloat 7.2s ease-in-out infinite;
   background-repeat: repeat;
   background-size: 64px 64px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='white' stroke-opacity='.9' stroke-width='2'%3E%3Cpath d='M32 10v18M23 19h18'/%3E%3Cpath d='M18 46h10M23 41v10'/%3E%3Cpath d='M43 44l6 6M49 44l-6 6'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='white' stroke-opacity='.75' stroke-width='2'%3E%3Cpath d='M32 10v18M23 19h18'/%3E%3Cpath d='M18 46h10M23 41v10'/%3E%3Cpath d='M43 44l6 6M49 44l-6 6'/%3E%3C/g%3E%3C/svg%3E");
   --px: 22px; --py: 16px;
 }
 .lp-med-left{ left:-64px; top:70px }
-.lp-med-right{ right:-64px; top:110px; animation-duration:8.1s; opacity:.18; --px: 26px; --py: 18px; }
+.lp-med-right{ right:-64px; top:110px; animation-duration:8.1s; opacity:.13; --px: 26px; --py: 18px; }
 
 .lp-header{
   display:flex;
@@ -430,16 +452,16 @@ const styles = `
 }
 
 .lp-logo{
-  width: clamp(290px, 40vw, 380px);
+  width: clamp(290px, 40vw, 390px);
   height:auto;
   user-select:none;
-  filter: drop-shadow(0 12px 20px rgba(0,0,0,.12));
+  filter: drop-shadow(0 18px 34px rgba(0,0,0,.26));
 }
 
 .lp-subtitle{
   color:var(--lp-text);
-  font-weight:800;
-  letter-spacing:.9px;
+  font-weight:900;
+  letter-spacing:1px;
   text-align:center;
   font-size:13px;
   text-transform:uppercase;
@@ -449,61 +471,67 @@ const styles = `
   border-radius:16px;
   padding:12px 14px;
   margin:12px 0 10px;
-  border:1px solid rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.18);
 }
 .lp-alert-title{ font-weight:900; color:var(--lp-text) }
-.lp-alert-body{ color:var(--lp-text); opacity:.92; font-size:13px }
+.lp-alert-body{ color:var(--lp-text); opacity:.94; font-size:13px }
 .lp-alert-danger{ background:rgba(255,84,84,.18); border-color:rgba(255,84,84,.28) }
-.lp-alert-success{ background:rgba(88,255,160,.18); border-color:rgba(88,255,160,.26) }
-.lp-muted{ opacity:.85; font-size:12px; color:var(--lp-text-dim) }
+.lp-alert-success{ background:rgba(88,255,160,.16); border-color:rgba(88,255,160,.26) }
+.lp-muted{ opacity:.88; font-size:12px; color:var(--lp-text-dim) }
 
 .lp-form{ margin-top:6px; }
 
 .lp-field{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.lp-field label{ color:var(--lp-text); font-size:13px; font-weight:700; }
+.lp-field label{ color:var(--lp-text); font-size:13px; font-weight:800; }
 
+/* input glass */
 .lp-field input{
-  border:1px solid rgba(255,255,255,.20);
+  border:1px solid rgba(255,255,255,.18);
   outline:none;
   border-radius:14px;
   padding:12px 14px;
-  background:rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
   color:var(--lp-text);
   transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
 }
-.lp-field input::placeholder{ color:rgba(255,255,255,.72) }
+.lp-field input::placeholder{ color:rgba(255,255,255,.70) }
 .lp-field input:focus{
-  border-color:rgba(255,255,255,.42);
-  box-shadow:0 0 0 4px rgba(255,255,255,.12);
-  background:rgba(255,255,255,.20);
+  border-color:rgba(24,209,200,.45);
+  box-shadow:0 0 0 4px rgba(24,209,200,.14);
+  background: rgba(255,255,255,.12);
 }
 
 .lp-field-error{
   margin-top:2px;
   font-size:12px;
   color: rgba(255,255,255,.92);
-  opacity:.9;
+  opacity:.92;
 }
 
+/* password glass wrapper */
 .lp-pass{
   display:flex;
   align-items:center;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.20);
+  border:1px solid rgba(255,255,255,.18);
   border-radius:14px;
   overflow:hidden;
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(10px) saturate(1.2);
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
   transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
 }
 .lp-pass[data-invalid="true"]{
   border-color: rgba(255,84,84,.55);
-  box-shadow:0 0 0 4px rgba(255,84,84,.12);
+  box-shadow:0 0 0 4px rgba(255,84,84,.14);
 }
 .lp-pass:focus-within{
-  border-color:rgba(255,255,255,.42);
-  box-shadow:0 0 0 4px rgba(255,255,255,.12);
-  background:rgba(255,255,255,.20);
+  border-color:rgba(24,209,200,.45);
+  box-shadow:0 0 0 4px rgba(24,209,200,.14);
+  background: rgba(255,255,255,.12);
 }
-.lp-pass input{ flex:1; border:none; background:transparent; box-shadow:none; }
+.lp-pass input{ flex:1; border:none; background:transparent; box-shadow:none; backdrop-filter:none; -webkit-backdrop-filter:none; }
 
 .lp-eye{
   border:none;
@@ -531,19 +559,19 @@ const styles = `
   gap:10px;
   color: var(--lp-text);
   font-size:13px;
-  font-weight:700;
+  font-weight:800;
   user-select:none;
 }
 .lp-check input{
   width:16px; height:16px;
-  accent-color: #0bb3d1;
+  accent-color: var(--lp-teal);
 }
 
 .lp-link{
   border:none;
   background:transparent;
-  color: rgba(255,255,255,.9);
-  font-weight:800;
+  color: rgba(255,255,255,.92);
+  font-weight:900;
   font-size:13px;
   cursor:pointer;
   opacity:.9;
@@ -554,28 +582,32 @@ const styles = `
 
 .lp-actions{ margin-top:16px; display:flex; justify-content:center; }
 
+/* tombol sedikit lebih gelap + kontras emoji tetap jelas */
 .lp-btn{
   border:none;
   border-radius:999px;
   padding:10px 22px;
   font-weight:900;
-  background:var(--lp-white);
-  color:#0c2230;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(227, 235, 235, 1) 100%);
+  color:#05212a;
   cursor:pointer;
   min-width:180px;
-  box-shadow:0 10px 24px rgba(0,0,0,.10);
-  transition: transform .12s ease, opacity .12s ease;
+  box-shadow:0 16px 36px rgba(255, 255, 255, 0.22);
+  transition: transform .12s ease, opacity .12s ease, filter .12s ease;
+  font-size: 14px;
+  letter-spacing: .2px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.18);
 }
-.lp-btn:hover{ transform: translateY(-1px) }
+.lp-btn:hover{ transform: translateY(-1px); filter: brightness(1.04) saturate(1.05) }
 .lp-btn:active{ transform: translateY(0px) }
-.lp-btn:disabled{ opacity:.55; cursor:not-allowed; transform:none }
+.lp-btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; filter:none }
 
 .lp-btn-inner{ display:inline-flex; align-items:center; gap:10px; justify-content:center; }
 .lp-spinner{
   width:16px; height:16px;
   border-radius:999px;
-  border:2px solid rgba(12,34,48,.22);
-  border-top-color: rgba(12,34,48,.85);
+  border:2px solid rgba(5,33,42,.22);
+  border-top-color: rgba(5,33,42,.90);
   animation: lpSpin .7s linear infinite;
 }
 
@@ -588,8 +620,8 @@ const styles = `
   font-size:12px;
   font-weight:900;
   margin-left:6px;
-  background:rgba(0,0,0,.18);
-  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.18);
   color:var(--lp-text);
 }
 

@@ -189,3 +189,34 @@
   opacity: 1 !important;
   visibility: visible !important;
 }
+
+/* ===== BADGE 1 BARIS, TIDAK TERPOTONG ===== */
+.sidebar .sidebar-user__role{
+  overflow: visible !important;
+}
+
+.sidebar .sidebar-user__badge{
+  max-width: none !important;   /* jangan dibatasi */
+  overflow: visible !important; /* jangan hidden */
+}
+
+.sidebar .sidebar-user__badgeText{
+  white-space: nowrap !important;  /* tetap 1 baris */
+  overflow: visible !important;    /* jangan dipotong */
+  text-overflow: clip !important;  /* hilangkan ... */
+}
+
+/* Badge: jarak icon gedung dan nama diperkecil */
+.sidebar .sidebar-user__badge{
+  gap: 4px !important;        /* sebelumnya 8px */
+  padding: 4px 8px;           /* tetap / bisa kamu kecilkan lagi */
+}
+
+.sidebar .sidebar-user__badgeIcon{
+  margin-right: 0 !important; /* jaga-jaga kalau ada style lain */
+}
+
+/* gap icon-gedung & teks lebih rapat */
+.sidebar .sidebar-user__badge{
+  gap: 4px !important;
+}

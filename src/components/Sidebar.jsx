@@ -3,6 +3,17 @@ import React from "react";
 import "../styles/sidebar.css";
 import logoSigo from "../assets/logosigo.png";
 
+function getApLabelFromGudangName(gudangName) {
+  const name = String(gudangName || "");
+  const m = name.match(/puskesmas\s*(\d+)/i);
+  if (!m) return null;
+
+  const n = Number.parseInt(m[1], 10);
+  if (!Number.isFinite(n)) return null;
+
+  return `AP${n}`; // AP1, AP2, AP3, dst
+}
+
 export default function Sidebar({
   user,
   gudangList,
@@ -15,8 +26,10 @@ export default function Sidebar({
     gudangList?.find((g) => String(g.id_gudang) === String(user?.id_gudang))
       ?.nama_gudang || "";
 
-  const roleText = user?.role === "dinkes" ? "Dinas Kesehatan" : gudangName || "-";
-  const roleIcon = user?.role === "dinkes" ? "🏥" : "🏨";
+  const isDinkes = user?.role === "dinkes";
+
+  const roleText = isDinkes ? "Dinas Kesehatan" : gudangName || "-";
+  const roleIcon = isDinkes ? "🏥" : "🏨";
 
   const initials = (user?.nama || "A")
     .trim()
@@ -25,11 +38,13 @@ export default function Sidebar({
     .map((w) => w[0]?.toUpperCase() || "")
     .join("");
 
+  const apLabel = !isDinkes ? getApLabelFromGudangName(gudangName) : null;
+  const avatarText = apLabel || initials;
+
   const [logoOk, setLogoOk] = React.useState(true);
 
   return (
     <aside className="sidebar">
-      {/* TOP SECTION: logo + admin card (gabung) */}
       <div className="sidebar-top">
         <div className="sidebar-header sidebar-header--logoOnly">
           <div className="sidebar-logoWrapRect" title="SIGO">
@@ -49,7 +64,7 @@ export default function Sidebar({
         <div className="sidebar-user sidebar-user--nice">
           <div className="sidebar-user__row">
             <div className="sidebar-user__avatar" aria-hidden="true">
-              {initials}
+              {avatarText}
             </div>
 
             <div className="sidebar-user__meta">
@@ -101,7 +116,7 @@ export default function Sidebar({
           onClick={onLogout}
           style={{ background: "rgba(255,255,255,.14)", color: "#fff" }}
         >
-          ➜🚪 Logout
+          ↩🚪 Logout
         </button>
       </div>
     </aside>
