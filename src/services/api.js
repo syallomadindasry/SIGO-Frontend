@@ -11,7 +11,7 @@ const envBase = import.meta?.env?.VITE_API_BASE
   : "";
 
 const isDevPort = ["5173", "5174"].includes(String(window.location.port || ""));
-const defaultBase = isDevPort ? "/api" : "/SIGO/backend/api";
+const defaultBase = "http://localhost/SIGOO/SIGO/backend/api";
 
 const RAW_BASE = envBase || defaultBase;
 const API_BASE = RAW_BASE.replace(/\/+$/, "");
@@ -304,4 +304,32 @@ export async function savePenghapusanDetail(payload) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...payload, type: "detail" }),
   });
+}
+
+// ===== DASHBOARD =====
+export async function getDashboardSummary(id_gudang = 0, role = "") {
+  const url = new URL(joinUrl(API_BASE, "dashboard_summary.php"), window.location.origin);
+
+  if (id_gudang) url.searchParams.set("id_gudang", String(id_gudang));
+  if (role) url.searchParams.set("role", String(role));
+
+  const res = await fetch(url.toString(), {
+    headers: authHeaders(),
+  });
+
+  return parseJsonStrict(res);
+}
+
+export async function getDistribusiBulanan(months = 6, id_gudang = 0, role = "") {
+  const url = new URL(joinUrl(API_BASE, "dashboard_distribusi_bulanan.php"), window.location.origin);
+
+  url.searchParams.set("months", String(months));
+  if (id_gudang) url.searchParams.set("id_gudang", String(id_gudang));
+  if (role) url.searchParams.set("role", String(role));
+
+  const res = await fetch(url.toString(), {
+    headers: authHeaders(),
+  });
+
+  return parseJsonStrict(res);
 }

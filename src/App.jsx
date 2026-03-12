@@ -1,4 +1,3 @@
-// File: frontend/src/App.jsx
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import * as api from "./services/api.js";
 import { globalStyles } from "./styles/globalStyles.js";
@@ -24,18 +23,15 @@ function normalizeUser(raw) {
   const wh = raw.warehouse || raw.gudang || {};
   const gudangId = Number(wh.code || raw.id_gudang || raw.id_gudang_user || 0);
 
-  // role dari warehouse.type (DINKES / PUSKESMAS)
   const type = String(wh.type || raw.role || "").toUpperCase();
   const role = type === "DINKES" ? "dinkes" : "puskesmas";
 
   return {
     ...raw,
-    // dipakai oleh page-page kamu
     id_admin: Number(raw.id_admin || raw.id || raw.sub || 0),
     id_gudang: gudangId,
     nama: raw.nama || raw.displayName || raw.username || "User",
     role,
-    // simpan warehouse biar tetap ada
     warehouse: {
       code: String(wh.code || gudangId || ""),
       name: wh.name || raw.nama_gudang || "",
@@ -51,7 +47,6 @@ export default function App() {
   const [gudangList, setGudangList] = useState([]);
   const [stokData, setStokData] = useState([]);
 
-  // auto-login
   useEffect(() => {
     const token = localStorage.getItem("sigo_token");
     const saved = localStorage.getItem("sigo_user");
@@ -60,7 +55,6 @@ export default function App() {
     api
       .me()
       .then((r) => {
-        // prioritas localStorage (lebih cepat), tapi tetap normalisasi
         if (saved) setUser(normalizeUser(JSON.parse(saved)));
         else if (r?.user) setUser(normalizeUser(r.user));
       })
@@ -68,7 +62,6 @@ export default function App() {
         localStorage.removeItem("sigo_token");
         localStorage.removeItem("sigo_user");
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reloadStok = useCallback(async () => {
@@ -119,7 +112,7 @@ export default function App() {
         items: [{ id: "laporan", icon: "📊", label: "Laporan" }],
       },
     ],
-    [],
+    []
   );
 
   const navPuskesmas = useMemo(
@@ -143,7 +136,7 @@ export default function App() {
         items: [{ id: "laporan", icon: "📊", label: "Laporan" }],
       },
     ],
-    [],
+    []
   );
 
   const nav = user?.role === "dinkes" ? navDinkes : navPuskesmas;
@@ -179,6 +172,7 @@ export default function App() {
   return (
     <>
       <style>{globalStyles}</style>
+
       <div className="sigo-app">
         <Sidebar
           user={user}
@@ -191,8 +185,15 @@ export default function App() {
 
         <main className="main-content">
           <Topbar title={pageTitle[activePage] || activePage} />
+
           <div className="page-content">
-            {activePage === "dashboard" && <Dashboard user={user} stokData={stokData} />}
+            {activePage === "dashboard" && (
+              <Dashboard
+                user={user}
+                stokData={stokData}
+                onNavigate={setActivePage}
+              />
+            )}
 
             {activePage === "stok" && (
               <StokMonitor
@@ -211,23 +212,44 @@ export default function App() {
             )}
 
             {activePage === "distribusi" && user.role === "dinkes" && (
-              <Distribusi user={user} gudangList={gudangList} stokData={stokData} reloadStok={reloadStok} />
+              <Distribusi
+                user={user}
+                gudangList={gudangList}
+                stokData={stokData}
+                reloadStok={reloadStok}
+              />
             )}
 
             {activePage === "penghapusan" && user.role === "dinkes" && (
-              <Penghapusan user={user} stokData={stokData} reloadStok={reloadStok} />
+              <Penghapusan
+                user={user}
+                stokData={stokData}
+                reloadStok={reloadStok}
+              />
             )}
 
             {activePage === "pemakaian" && user.role === "puskesmas" && (
-              <Pemakaian user={user} stokData={stokData} reloadStok={reloadStok} />
+              <Pemakaian
+                user={user}
+                stokData={stokData}
+                reloadStok={reloadStok}
+              />
             )}
 
             {activePage === "retur" && user.role === "puskesmas" && (
-              <Retur user={user} stokData={stokData} reloadStok={reloadStok} />
+              <Retur
+                user={user}
+                stokData={stokData}
+                reloadStok={reloadStok}
+              />
             )}
 
             {activePage === "laporan" && (
-              <Laporan user={user} gudangList={gudangList} stokData={stokData} />
+              <Laporan
+                user={user}
+                gudangList={gudangList}
+                stokData={stokData}
+              />
             )}
           </div>
         </main>
